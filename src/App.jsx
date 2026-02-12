@@ -19,6 +19,7 @@ const App = () => {
   const skills = watch("skills");
   const bio = watch("bio");
   const image = watch("image");
+  const experience = watch("experience");
   const onSubmit = (data) => {
     alert("Form submitted")
     reset()
@@ -95,6 +96,7 @@ const App = () => {
             className="w-full border rounded-lg px-4 py-2"
             type="text"
             placeholder="Experience (years)"
+            {...register("experience",{required:true})}
           />
 
           <input
@@ -136,8 +138,11 @@ const App = () => {
             <p><strong>Email:</strong> {email}</p>
             <p><strong>Age:</strong> {age}</p>
             <p><strong>Gender:</strong> {gender}</p>
+            <p><strong>Experience:</strong> {experience}</p>
             <p><strong>Skills:</strong> {skills.join(", ")}</p>
+
             <p><strong>Bio:</strong> {bio}</p>
+        
           </div>
         </div>
 
