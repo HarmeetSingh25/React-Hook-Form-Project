@@ -1,12 +1,25 @@
 import React from "react";
 import { useForm } from "react-hook-form"
 const App = () => {
-  const { register, handleSubmit, watch } = useForm()
+  const { register, handleSubmit, watch } = useForm({
+    defaultValues: {
+    skills: []
+  }
+  })
   const name = watch("name");
+  const email = watch("email");
+  const age = watch("age");
+  const gender = watch("gender");
+  const skills = watch("skills");
+  const bio = watch("bio");
+  const image = watch("image");
   const onSubmit = (data) => {
-alert("Form submitted")
+    alert("Form submitted")
     console.log(data)
   }
+  const imageFile = image?.[0]; // get first file
+  const imagePreview = imageFile ? URL.createObjectURL(imageFile) : null;
+
   return (
     <div className="min-h-screen bg-gray-100 flex items-center justify-center p-6">
 
@@ -41,29 +54,35 @@ alert("Form submitted")
 
           />
 
-          <select className="w-full border rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400">
-            <option>Select Gender</option>
-            <option>Male</option>
-            <option>Female</option>
-            <option>Other</option>
+          <select {...register("gender", { required: true })} className="w-full border rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400">
+            <option value="">Select Gender</option>
+            <option value="Male">Male</option>
+            <option value="Female">Female</option>
+            <option value="Other">Other</option>
           </select>
 
           {/* Skills */}
 
           <div>
             <label className="font-semibold text-gray-700">Skills</label>
+
             <div className="grid grid-cols-2 gap-2 mt-2">
               {["React", "Node", "MongoDB", "Express"].map((skill) => (
                 <label
                   key={skill}
                   className="flex items-center gap-2 bg-gray-100 px-3 py-2 rounded-lg cursor-pointer hover:bg-gray-200"
                 >
-                  <input type="checkbox" />
+                  <input
+                    type="checkbox"
+                    value={skill}
+                    {...register("skills")}
+                  />
                   {skill}
                 </label>
               ))}
             </div>
           </div>
+
 
           <input
             className="w-full border rounded-lg px-4 py-2"
@@ -75,12 +94,14 @@ alert("Form submitted")
             className="w-full border rounded-lg px-4 py-2"
             type="file"
             accept="image/*"
+            {...register("image", { required: true })}
           />
 
           <textarea
             className="w-full border rounded-lg px-4 py-2 resize-none"
             placeholder="Short bio (max 150 chars)"
             maxLength={150}
+            {...register("bio", { required: true })}
           />
 
           <button className="w-full bg-blue-500 text-white py-2 rounded-lg hover:bg-blue-600 transition">
@@ -95,15 +116,24 @@ alert("Form submitted")
             Live Preview
           </h2>
 
+          {imagePreview && (
+            <img
+              src={imagePreview}
+              alt="Profile Preview"
+              className="w-32 h-32 object-cover rounded-full border mb-3"
+            />
+          )}
+
           <div className="space-y-3 text-gray-600">
-            <p><strong>Name:{name}</strong> -</p>
-            <p><strong>Email:</strong> </p>
-            <p><strong>Age:</strong> </p>
-            <p><strong>Gender:</strong> </p>
-            <p><strong>Skills:</strong> </p>
-            <p><strong>Bio:</strong> </p>
+            <p><strong>Name:</strong> {name}</p>
+            <p><strong>Email:</strong> {email}</p>
+            <p><strong>Age:</strong> {age}</p>
+            <p><strong>Gender:</strong> {gender}</p>
+            <p><strong>Skills:</strong> {skills.join(", ")}</p>
+            <p><strong>Bio:</strong> {bio}</p>
           </div>
         </div>
+
 
       </div>
     </div>
