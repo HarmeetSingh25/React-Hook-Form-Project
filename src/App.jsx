@@ -1,9 +1,15 @@
 import React from "react";
 import { useForm } from "react-hook-form"
 const App = () => {
-  const { register, handleSubmit, watch } = useForm({
+  const { register, handleSubmit, watch , reset} = useForm({
     defaultValues: {
-    skills: []
+ name: "",
+    email: "",
+    age: "",
+    gender: "",
+    skills: [],
+    bio: "",
+    image: null
   }
   })
   const name = watch("name");
@@ -15,6 +21,7 @@ const App = () => {
   const image = watch("image");
   const onSubmit = (data) => {
     alert("Form submitted")
+    reset()
     console.log(data)
   }
   const imageFile = image?.[0]; // get first file
